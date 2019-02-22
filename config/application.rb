@@ -23,7 +23,7 @@ module FileSend
          base_uri: %w('self'),
          block_all_mixed_content: true, # see http://www.w3.org/TR/mixed-content/
          child_src: ["'self'"], # if child-src isn't supported, the value for frame-src will be set.
-         connect_src: ["'self'"],
+         connect_src: ["'self'", "*"],
          font_src: %w('self'),
          form_action: %w('self'),
          frame_ancestors: ["'self'"], # if child-src isn't supported, the value for frame-src will be set.
@@ -31,6 +31,7 @@ module FileSend
          manifest_src: %w('self'),
          media_src: %w('self'),
          object_src: %w('self'),
+         worker_src: %w('self' data: blob:),
          plugin_types: %w(),
          script_src: %w('self' 'unsafe-inline' matomo.standardnotes.org ),
          style_src: %w('self' 'unsafe-inline' *.mailchimp.com),

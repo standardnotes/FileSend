@@ -26,6 +26,8 @@ gem 'turbolinks', '~> 5.1.0'
 
 gem 'whenever', :require => false
 
+gem "non-stupid-digest-assets"
+
 gem 'dotenv-rails'
 gem 'secure_headers'
 gem 'rack-cors', :require => 'rack/cors'

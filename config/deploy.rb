@@ -11,9 +11,6 @@ set :repo_url, CAP_CONFIG["default"]["repo_url"]
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
 
-# Default value for :scm is :git
-set :scm, :git
-
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 

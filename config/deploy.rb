@@ -1,6 +1,6 @@
 CAP_CONFIG = YAML.load_file("config/cap.yml")
 # config valid only for current version of Capistrano
-lock '3.6.1'
+# lock '3.6.1'
 
 set :application, 'filesend'
 set :repo_url, CAP_CONFIG["default"]["repo_url"]
@@ -13,7 +13,6 @@ set :repo_url, CAP_CONFIG["default"]["repo_url"]
 
 # Default value for :scm is :git
 set :scm, :git
-set :git_strategy, Capistrano::Git::SubmoduleStrategy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -40,18 +39,18 @@ set :rvm_ruby_version, '2.3.0'
 
 namespace :deploy do
 
-  task :npm_install do
+  task :yarn_install do
     on roles(:app) do
       within release_path do
         # string commands dont work, have to use special *%w syntax
-        execute *%w[ npm install ]
+        execute *%w[ yarn install ]
       end
     end
   end
 
 end
 
-before 'deploy:compile_assets', 'deploy:npm_install'
+before 'deploy:compile_assets', 'deploy:yarn_install'
 
 set :ssh_options, {
   keys: %W( #{CAP_CONFIG['default']['key_path']} ),

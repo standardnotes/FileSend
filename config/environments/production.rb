@@ -1,6 +1,15 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
-config.webpacker.check_yarn_integrity = false
+  config.webpacker.check_yarn_integrity = false
+
+  config.force_ssl = true
+
+  MAX_LOG_MEGABYTES = 50
+  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
+
+  require 'custom_log_formatter'
+  config.log_formatter = CustomLogFormatter.new
+  config.logger.formatter = config.log_formatter
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -75,13 +84,6 @@ config.webpacker.check_yarn_integrity = false
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
-
-  MAX_LOG_MEGABYTES = 50
-  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
-
-  require 'custom_log_formatter'
-  config.log_formatter = CustomLogFormatter.new
-  config.logger.formatter = config.log_formatter
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

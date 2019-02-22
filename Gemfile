@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1.5'
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 
 gem 'webpacker'
+
 gem 'react-rails'
 
 gem 'aws-sdk-s3'
@@ -26,7 +27,7 @@ gem 'turbolinks', '~> 5.1.0'
 gem 'whenever', :require => false
 
 gem 'dotenv-rails'
-
+gem 'secure_headers'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do

@@ -1,0 +1,15 @@
+default: &default
+  key_path: /path/to/key.pem
+  repo_url: https://github.com/standardnotes/filesend
+  user: ssh_username
+
+staging:
+  <<: *default
+  server: staging.yourdomain.com
+  branch: staging
+  deploy_to: /home/filesend
+
+production:
+  <<: *default
+  server: yourdomain.com
+  deploy_to: /home/filesend

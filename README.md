@@ -17,13 +17,14 @@ Files can also be shared via a base link with no encryption key contained. The e
 
 ## Self-hosting
 
-You can self-host FileSend to have your own encrypted file sharing portal. This codebase is a Ruby on Rails application, and can be hosted using traditional deployment instructions for such an application, which we will not cover here. For a comprehensive guide to self-hosting a similar Ruby on Rails application, our Standard Notes syncing server, please see (Self Hosting Standard Notes with EC2 and Nginx)[https://docs.standardnotes.org/self-hosting/self-hosting-with-ec2-and-nginx].
+You can self-host FileSend to have your own encrypted file sharing portal. This codebase is a Ruby on Rails application, and can be hosted using traditional deployment instructions for such an application, which we will not cover here. For a comprehensive guide to self-hosting a similar Ruby on Rails application, our Standard Notes syncing server, please see [Self Hosting Standard Notes with EC2 and Nginx](https://docs.standardnotes.org/self-hosting/self-hosting-with-ec2-and-nginx).
 
 This application makes use of Amazon S3 for file storage.
 
 The following environment variables are required for proper functioning. You may place these variables in a file named `.env`.
 
 ```
+SECRET_KEY_BASE=
 HOST=
 DB_HOST=
 DB_PORT=3306

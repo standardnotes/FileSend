@@ -2,6 +2,14 @@ import { StandardFile } from 'standard-file-js';
 
 export default class Utils {
 
+  static pluralize(noun, suffix, length) {
+    return length == 1 ? noun : (noun + suffix);
+  }
+
+  static chooseNounGrouping(singular, plural, length) {
+    return length == 1 ? singular : plural;
+  }
+
   static async processUserInputtedKey(userInput) {
     // User inputted keys should be hashed, then base64ed
     let hash = await SFJS.crypto.sha256(userInput);

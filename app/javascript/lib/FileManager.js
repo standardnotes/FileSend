@@ -16,14 +16,12 @@ export default class FileManager {
       const worker = new EncryptionWorker();
 
       worker.addEventListener("message", (event) => {
-        let error = event.data.error;
-        if(error) {
-          reject(error);
+        if(event.data.error) {
+          reject(event.data.error);
           return;
         }
 
-        let response = event.data.response;
-        resolve(response);
+        resolve(event.data.response);
       });
 
       var params = {
@@ -42,6 +40,10 @@ export default class FileManager {
       const worker = new EncryptionWorker();
 
       worker.addEventListener("message", function (event) {
+        if(event.data.error) {
+          reject(event.data.error);
+          return;
+        }
         resolve(event.data.item);
       });
 
@@ -63,13 +65,12 @@ export default class FileManager {
       const worker = new EncryptionWorker();
 
       worker.addEventListener("message", function (event) {
-        var data = event.data;
-        if(data.error) {
-          reject(data.error);
+        if(event.data.error) {
+          reject(event.data.error);
           return;
         }
 
-        resolve({data: data.decryptedData, item: data.decryptedItem});
+        resolve({data: event.data.decryptedData, item: event.data.decryptedItem});
       });
 
       worker.postMessage({

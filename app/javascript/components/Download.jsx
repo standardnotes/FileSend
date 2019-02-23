@@ -20,8 +20,9 @@ export default class Home extends React.Component {
     let token = props.match.params.token;
     ServerManager.get().getBundleInfo(token).then((response) => {
       this.setState({urls: response.urls, token: token});
-    }).catch((response) => {
-      this.setState({bundleError: response.error});
+    }).catch((error) => {
+      console.error("Get bundle info exception:", error);
+      this.setState({bundleError: error});
     })
   }
 
@@ -41,17 +42,25 @@ export default class Home extends React.Component {
       event.preventDefault();
     }
 
-    this.setState({status: "Downloading...", downloading: true, decryptionError: false});
+    this.setState({status: "Downloading...", downloading: true, decryptionError: false, processingError: null});
 
     await Utils.sleep(250);
 
     if(this.state.userKey.length == 0) {
-      this.setState({error: {message: "Encryption key not set."}});
+      this.setState({status: null, downloading: false, processingError: {message: "Encryption key not set."}});
       return;
     }
 
     // Download files
-    let files = await ServerManager.get().downloadFileUrls(this.state.urls);
+    let files = await ServerManager.get().downloadFileUrls(this.state.urls).catch((error) => {
+      console.error("Download file urls failed:", error);
+      return null;
+    })
+
+    if(!files) {
+      this.setState({status: null, downloading: false, processingError: {message: "An error occurred while trying to download files. Please try again."}});
+      return;
+    }
 
     // Decrypt Files
     this.setState({status: "Decrypting..."});
@@ -89,18 +98,19 @@ export default class Home extends React.Component {
   render() {
     return (
       <div id="download">
-        {!this.state.bundleError &&
+        {!this.state.bundleError && !this.state.downloaded &&
           <div className="sk-panel-row">
             <div className="sk-panel-column stretch">
-
               {!this.state.urls && !this.state.bundleError &&
-                <div className="sk-panel-row sk-label">Loading files...</div>
+                <div className="sk-panel-row centered first-and-only">
+                  <div className="sk-label">Loading files...</div>
+                </div>
               }
 
               {this.state.urls && !this.state.downloaded &&
                 <div>
                   <div className="sk-h2">
-                    Downloading <span className="sk-bold">{this.state.urls.length}</span> files.
+                    Downloading <span className="sk-bold">{this.state.urls.length}</span> {Utils.pluralize("file", "s", this.state.urls.length)}.
                   </div>
 
                   <div className="file-info">
@@ -115,6 +125,12 @@ export default class Home extends React.Component {
                       {this.state.decryptionError &&
                         <div className="danger sk-bold">
                           The decryption key you entered is incorrect. Please try again.
+                        </div>
+                      }
+
+                      {this.state.processingError &&
+                        <div className="sk-panel-row danger sk-bold">
+                          {this.state.processingError.message}
                         </div>
                       }
                     </div>
@@ -140,14 +156,14 @@ export default class Home extends React.Component {
         }
 
         {this.state.bundleError &&
-          <div className="sk-panel-row centered">
+          <div className="sk-panel-row centered first-and-only">
             {this.state.bundleError.message}
           </div>
         }
 
         {this.state.downloaded &&
-          <div className="sk-panel-row centered">
-            Your files have been downloaded.
+          <div className="sk-panel-row centered sk-bold first-and-only">
+            <div>Your {Utils.chooseNounGrouping("file has", "files have", this.state.urls.length)} been downloaded.</div>
           </div>
         }
 

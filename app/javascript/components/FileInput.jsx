@@ -26,17 +26,32 @@ export default class FileInput extends React.Component {
   }
 
   handleEvent = (event) => {
+    if(event.type == "dragleave") {
+      let isHtml = event.target.tagName == "HTML"
+      let isRoot = event.target.id == "root";
+      if(!(isHtml || isRoot)) {
+        return;
+      }
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
     const dropContainer = document.getElementById("drop-container");
 
+    // debounce to prevent stutter when events fire too quickly
     var highlight = (e) => {
-      dropContainer.classList.add('focused');
+      if(this.highlightDebouncer) { clearTimeout(this.highlightDebouncer);}
+      this.highlightDebouncer = setTimeout(function () {
+        dropContainer.classList.add('focused');
+      }, 1);
     }
 
     var unhighlight = (e) => {
-      dropContainer.classList.remove('focused');
+      if(this.unhighlightDebouncer) { clearTimeout(this.unhighlightDebouncer);}
+      this.unhighlightDebouncer = setTimeout(function () {
+        dropContainer.classList.remove('focused');
+      }, 1);
     }
 
     var handleDrop = (e) => {
@@ -140,6 +155,17 @@ export default class FileInput extends React.Component {
         <div onClick={this.showFileSelector} id="drop-container">
           <div className="title">Drag and drop files to encrypt here</div>
           <div className="subtitle">Maximum 50MB total</div>
+
+          <div style={{marginTop: 15}}>
+            <div className="sk-button-group stretch">
+              <div onClick={this.showFileSelector} className="sk-button contrast">
+                <div className="sk-label">
+                  Select Files
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </label>
     )

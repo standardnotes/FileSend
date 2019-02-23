@@ -43,8 +43,12 @@ export default class ServerManager {
       this.httpManger.getAbsolute(url, {}, async (response) => {
         resolve(response);
       }, (errorResponse) => {
+        var error = errorResponse.error;
+        if(!error) {
+          error = {message: "Get bundle info failed."};
+        }
         console.error("Bundle info error", errorResponse);
-        reject(errorResponse);
+        reject(error);
       })
     });
   }

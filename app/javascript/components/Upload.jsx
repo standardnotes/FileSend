@@ -69,7 +69,7 @@ export default class Upload extends React.Component {
       deletionToken: deletionToken,
       keys: keys,
       authParams: authParams
-    });
+    })
   }
 
   encryptAndUpload = async () => {
@@ -96,7 +96,16 @@ export default class Upload extends React.Component {
     let encryptedItems = [];
     let deletionToken = await SFJS.crypto.generateRandomKey(128);
     for(let file of this.state.inputFiles) {
-      let result = await this.encryptFile({file, keys, authParams, deletionToken});
+      let result = await this.encryptFile({file, keys, authParams, deletionToken}).catch((e) => {
+        return null;
+      })
+
+      if(!result) {
+        // abort
+        this.setState({error: {message: "Error processing file."}, encrypting: false, uploading: false, status: null});
+        return;
+      }
+
       encryptedItems.push(result);
     }
 
@@ -108,7 +117,8 @@ export default class Upload extends React.Component {
       let simpleLink = `${shareUrl}#${keyToUse}`
       this.setState({uploadComplete: true, shareUrl: shareUrl, simpleLink: simpleLink});
     }).catch((uploadError) => {
-      this.setState({error: uploadError});
+      console.log("Upload exception", uploadError);
+      this.setState({error: uploadError, encrypting: false, uploading: false, status: null});
     })
   }
 
@@ -164,20 +174,17 @@ export default class Upload extends React.Component {
         {this.state.uploadComplete &&
           <div>
             <div className="sk-panel-row sk-h2">
-              {this.state.inputFiles.length > 1 &&
-                <div><span className="sk-bold">Success! </span>Your files are ready to share.</div>
-              }
-
-              {this.state.inputFiles.length <= 1 &&
-                <div><span className="sk-bold">Success! </span>Your file is ready to share.</div>
-              }
+              <div>
+                <span className="sk-bold">Success! </span>
+                Your {Utils.chooseNounGrouping("file is", "files are", this.state.inputFiles.length)} ready to share.
+              </div>
             </div>
 
             <div className="sk-panel-row">
               <div className="sk-panel-column">
                 <div className="sk-label sk-h3">Simple Link (recommended)</div>
                 <div className="sk-panel-row">
-                  Share the file and encryption key in one secure link.
+                  Share the {Utils.pluralize("file", "s", this.state.inputFiles.length)} and encryption key in one secure link.
                   The key is placed after the # symbol, which means it remains private in the browser.
                 </div>
 
@@ -232,7 +239,7 @@ export default class Upload extends React.Component {
 
         {!this.state.uploadComplete &&
           <div>
-            <div className="sk-panel-row">
+            <div className="sk-panel-row extra-mb">
               <div className="sk-panel-column stretch">
                 <FileInput onFile={this.onFile} />
               </div>
@@ -244,7 +251,7 @@ export default class Upload extends React.Component {
             }
 
             <div>
-              <div className="sk-panel-row">
+              <div className="sk-panel-row extra-mb">
                 <div className="sk-panel-column stretch">
                   <div className="sk-panel-row sk-label">Choose key to encrypt files with</div>
                   <input className="sk-panel-row sk-input info" type="text" placeholder="Encryption key" value={this.state.userKey} onChange={this.onKeyChange} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"/>

@@ -94,18 +94,24 @@ GEM
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
     crass (1.0.4)
+    daemons (1.2.6)
     dotenv (2.4.0)
     dotenv-rails (2.4.0)
       dotenv (= 2.4.0)
       railties (>= 3.2, < 6.0)
     erubi (1.7.1)
+    eventmachine (1.0.9.1)
     execjs (2.7.0)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    haml (5.0.4)
+      temple (>= 0.8.0)
+      tilt
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     jmespath (1.4.0)
+    json (2.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -115,6 +121,16 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
+    mailcatcher (0.2.4)
+      eventmachine
+      haml
+      i18n
+      json
+      mail
+      sinatra
+      skinny (>= 0.1.2)
+      sqlite3-ruby
+      thin
     method_source (0.9.0)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
@@ -186,6 +202,11 @@ GEM
     selenium-webdriver (3.12.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
+    sinatra (1.0)
+      rack (>= 1.0)
+    skinny (0.2.4)
+      eventmachine (~> 1.0.0)
+      thin (>= 1.5, < 1.7)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -198,9 +219,17 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.3.13)
+    sqlite3-ruby (1.3.3)
+      sqlite3 (>= 1.3.3)
     sshkit (1.17.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    temple (0.8.0)
+    thin (1.6.2)
+      daemons (>= 1.0.9)
+      eventmachine (>= 1.0.0)
+      rack (>= 1.0.0)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -242,6 +271,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   dotenv-rails
   listen (>= 3.0.5, < 3.2)
+  mailcatcher
   mysql2 (>= 0.3.13, < 0.5)
   non-stupid-digest-assets
   puma (~> 3.7)

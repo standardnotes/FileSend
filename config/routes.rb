@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   post "api/files/save" => "bundles#save"
   post "api/files/successful_download" => "bundles#successful_download"
 
+  post "api/files/subscribe" => "bundles#subscribe"
+
   match '*path' => 'app#index', :via => [:get]
   root "app#index"
 end

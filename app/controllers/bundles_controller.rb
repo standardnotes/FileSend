@@ -1,8 +1,9 @@
 class BundlesController < ApplicationController
 
+  include ExtendedHelper
+
   def save
     files = params[:files]
-
     bundle = Bundle.create
     duration = [Bundle::MaxDuration, params[:duration].to_i].min
 
@@ -14,26 +15,24 @@ class BundlesController < ApplicationController
     end
 
     bundle.duration = duration
+    bundle.download_limit = params[:download_limit]
     bundle.deletion_token = params[:deletion_token]
 
-    s3 = Aws::S3::Resource.new
-
-    # upload to aws
+    # upload to AWS
     files.each do |file|
       filename = "#{bundle.token}/#{SecureRandom.uuid}"
-
-      # Make an object in your bucket for your upload
-      obj = s3.bucket(ENV['S3_BUCKET']).object(filename)
-
-      # Upload the file
+      obj = S3_BUCKET.object(filename)
       obj.put(body: file, acl: "public-read")
-
       bundle.add_file(obj.public_url, obj.key)
     end
 
     bundle.save
 
-    render :json => {:share_url => bundle.share_url}
+    render :json => {
+      :share_url => bundle.share_url,
+      :bundle_token => bundle.token,
+      :admin_token => bundle.admin_token
+    }
   end
 
   def download
@@ -44,6 +43,30 @@ class BundlesController < ApplicationController
     end
 
     render :json => {urls: bundle.file_urls}
+  end
+
+  def subscribe
+    bundle = Bundle.find_by_token(params[:token])
+    if !bundle
+      render :json => {:error => {:message => "File not found."}}, :status => 404
+      return
+    end
+
+    if bundle.admin_token != params[:admin_token]
+      render :json => {:error => {:message => "Invalid admin token."}}, :status => 401
+      return
+    end
+
+    is_valid = ExtendedHelper.is_extended_valid(params[:email])
+    if is_valid
+      bundle.notification_email = params[:email]
+      bundle.save
+
+      BundlesMailer.subscribed(bundle.id).deliver_later
+      render :json => {success: true}
+    else
+      render :json => {success: false}
+    end
   end
 
   def successful_download
@@ -58,13 +81,25 @@ class BundlesController < ApplicationController
       return
     end
 
-    # only delete if duration is 0
-    if bundle.duration != 0
-      return
+    if bundle.notification_email
+      BundlesMailer.bundle_downloaded(bundle.id).deliver_later
     end
 
-    bundle.delete_all_files
-    bundle.destroy
+    bundle.download_count = bundle.download_count + 1
+    bundle.save
+
+    if bundle.download_limit && bundle.download_limit > 0
+      if bundle.download_count >= bundle.download_limit
+        if bundle.notification_email
+          # Wait a little bit to ensure the bundle download email is sent first
+          # Send raw parameters as the bundle itself may be deleted by email send time
+          BundlesMailer.bundle_deleted(bundle.notification_email, bundle.share_url, bundle.download_count).deliver_later(wait: 5.seconds)
+        end
+
+        bundle.delete_all_files
+        bundle.destroy
+      end
+    end
 
     render :json => {:success => true}
   end

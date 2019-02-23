@@ -4,12 +4,8 @@ import FileManager from "../lib/FileManager";
 import Download from "./Download";
 import ServerManager from "../lib/ServerManager";
 import Utils from "../lib/Utils";
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import Share from "./Share"
+import Button from "./Button"
 
 export default class Upload extends React.Component {
 
@@ -26,7 +22,6 @@ export default class Upload extends React.Component {
     ]
 
     this.state = {inputFiles: [], duration: this.durationOptions[0].value, userKey: ""};
-
     this.generateKeyForUser();
   }
 
@@ -111,19 +106,26 @@ export default class Upload extends React.Component {
 
     this.setState({status: "Uploading...", encrypting: false, uploading: true});
 
+    let downloadLimit;
+    if(this.state.duration == 0) {
+      downloadLimit = 1;
+    }
+
     // Upload to server
-    FileManager.get().uploadFiles(encryptedItems, this.state.duration, deletionToken).then((response) => {
+    FileManager.get().uploadFiles(encryptedItems, this.state.duration, downloadLimit, deletionToken).then((response) => {
       let shareUrl = response.share_url;
       let simpleLink = `${shareUrl}#${keyToUse}`
-      this.setState({uploadComplete: true, shareUrl: shareUrl, simpleLink: simpleLink});
+      this.setState({
+        uploadComplete: true,
+        shareUrl: shareUrl,
+        simpleLink: simpleLink,
+        bundleToken: response.bundle_token,
+        adminToken: response.admin_token
+      });
     }).catch((uploadError) => {
       console.log("Upload exception", uploadError);
       this.setState({error: uploadError, encrypting: false, uploading: false, status: null});
     })
-  }
-
-  compoundUrl() {
-    return `${this.state.shareUrl}#${this.state.userKey}`
   }
 
   inputFilesListString() {
@@ -140,101 +142,18 @@ export default class Upload extends React.Component {
     return string;
   }
 
-  copySimpleLink = (event) => {
-    this.copyTextForButton(this.state.simpleLink, event.target);
-  }
-
-  copyBareLink = (event) => {
-    this.copyTextForButton(this.state.shareUrl, event.target);
-  }
-
-  copyKey = (event) => {
-    this.copyTextForButton(this.state.userKey, event.target);
-  }
-
-  copyTextForButton = (text, button) => {
-    Utils.copyToClipboard(text);
-    let element = button;
-    let label = button.querySelector(".sk-label");
-    if(label) {
-      // the input element can either be the label itself or the outer button, depending on where the mouse was clicked
-      element = label;
-    }
-    let original = element.innerHTML;
-    element.innerHTML = "Copied.";
-    setTimeout(() => {
-      element.innerHTML = original;
-    }, 1000);
-  }
-
   render() {
     return (
       <div id="upload">
-
         {this.state.uploadComplete &&
-          <div>
-            <div className="sk-panel-row sk-h2">
-              <div>
-                <span className="sk-bold">Success! </span>
-                Your {Utils.chooseNounGrouping("file is", "files are", this.state.inputFiles.length)} ready to share.
-              </div>
-            </div>
-
-            <div className="sk-panel-row">
-              <div className="sk-panel-column">
-                <div className="sk-label sk-h3">Simple Link (recommended)</div>
-                <div className="sk-panel-row">
-                  Share the {Utils.pluralize("file", "s", this.state.inputFiles.length)} and encryption key in one secure link.
-                  The key is placed after the # symbol, which means it remains private in the browser.
-                </div>
-
-                <div className="sk-panel-column stretch">
-                  <input className="sk-panel-row sk-input info" type="text" value={this.state.simpleLink} disabled={true} />
-                </div>
-
-                <div className="sk-button-group stretch">
-                  <div onClick={this.copySimpleLink} className="sk-button info big" type="submit">
-                    <div className="sk-label">
-                      Copy Simple Link
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="sk-panel-row">
-              <div className="sk-panel-column">
-                <div className="sk-label sk-h3">Bare Link</div>
-                <div className="sk-panel-row">
-                  Share the file link and encryption key via separate communication channels.
-                </div>
-
-                <div className="sk-panel-column stretch">
-                  <input className="sk-panel-row sk-input info" type="text" value={this.state.shareUrl} disabled={true} />
-                </div>
-
-                <div className="sk-panel-column stretch">
-                  <input className="sk-panel-row sk-input info" type="text" value={this.state.userKey} type="password" disabled={true} />
-                </div>
-
-                <div className="sk-button-group stretch">
-                  <div onClick={this.copyBareLink} className="sk-button info big">
-                    <div className="sk-label">
-                      Copy Bare Link
-                    </div>
-                  </div>
-                </div>
-
-                <div className="sk-panel-row sk-button-group stretch">
-                  <div onClick={this.copyKey} className="sk-button info big">
-                    <div className="sk-label">
-                      Copy Encryption Key
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Share
+            simpleLink={this.state.simpleLink}
+            numFiles={this.state.inputFiles.length}
+            shareUrl={this.state.shareUrl}
+            userKey={this.state.userKey}
+            bundleToken={this.state.bundleToken}
+            adminToken={this.state.adminToken}
+          />
         }
 
         {!this.state.uploadComplete &&
@@ -244,7 +163,6 @@ export default class Upload extends React.Component {
                 <FileInput onFile={this.onFile} />
               </div>
             </div>
-
 
             {this.state.inputFiles.length > 0 &&
               <div><span className="sk-bold">Attaching </span>{this.inputFilesListString()}</div>
@@ -270,15 +188,7 @@ export default class Upload extends React.Component {
               </div>
 
               {!(this.state.encrypting || this.state.uploading) &&
-                <div className="sk-panel-row">
-                  <div className="sk-button-group stretch">
-                    <div onClick={this.encryptAndUpload} className="sk-button info big">
-                      <div className="sk-label">
-                        Encrypt & Share
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Button className="sk-panel-row" label="Encrypt & Share" onClick={this.encryptAndUpload} />
               }
 
               {this.state.error &&

@@ -2,12 +2,7 @@ import React from 'react';
 import FileManager from "../lib/FileManager";
 import ServerManager from "../lib/ServerManager";
 import Utils from "../lib/Utils";
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import Button from "./Button"
 
 export default class Home extends React.Component {
 
@@ -138,15 +133,7 @@ export default class Home extends React.Component {
 
 
                   {!this.state.downloading &&
-                    <div className="sk-panel-row">
-                      <div onClick={this.downloadFiles} className="sk-button-group stretch">
-                        <div className="sk-button info big">
-                          <div className="sk-label">
-                            Download
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <Button className="sk-panel-row" label="Download" onClick={this.downloadFiles} />
                   }
                 </div>
               }

@@ -24,8 +24,11 @@ ActiveRecord::Schema.define(version: 20190222035549) do
     t.string "token"
     t.string "deletion_token"
     t.string "admin_token"
+    t.string "notification_email"
     t.datetime "expiration"
     t.integer "duration"
+    t.integer "download_count", default: 0
+    t.integer "download_limit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expiration"], name: "index_bundles_on_expiration"

@@ -42,7 +42,7 @@ self.addEventListener('message', async function(e) {
       })
     } else if(data.operation == "upload") {
       ServerManager.get().setHost(data.host);
-      ServerManager.get().uploadFiles(data.files, data.duration, data.deletionToken).then((response) => {
+      ServerManager.get().uploadFiles(data.files, data.duration, data.downloadLimit, data.deletionToken).then((response) => {
         self.postMessage({response});
       }).catch((error) => {
         self.postMessage({error: error});

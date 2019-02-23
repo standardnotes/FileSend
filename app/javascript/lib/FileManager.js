@@ -11,7 +11,7 @@ export default class FileManager {
     return this.instance;
   }
 
-  async uploadFiles(files, duration, deletionToken) {
+  async uploadFiles(files, duration, downloadLimit, deletionToken) {
     return new Promise((resolve, reject) => {
       const worker = new EncryptionWorker();
 
@@ -29,6 +29,7 @@ export default class FileManager {
         files: files,
         duration: duration,
         deletionToken: deletionToken,
+        downloadLimit: downloadLimit,
         host: ServerManager.get().host
       };
       worker.postMessage(params);

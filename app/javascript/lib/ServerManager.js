@@ -19,9 +19,14 @@ export default class ServerManager {
     this.host = host;
   }
 
-  async uploadFiles(files, duration, deletionToken) {
+  async uploadFiles(files, duration, downloadLimit, deletionToken) {
     let url = `${this.host}/api/files/save`;
-    let params = {files: files, duration: duration, deletion_token: deletionToken}
+    let params = {
+      files: files,
+      duration: duration,
+      download_limit: downloadLimit,
+      deletion_token: deletionToken
+    }
 
     return new Promise((resolve, reject) => {
       this.httpManger.postAbsolute(url, params, (response) => {
@@ -83,5 +88,23 @@ export default class ServerManager {
         })
       })
     }))
+  }
+
+  async subscribeToBundle(email, bundleToken, adminToken) {
+    let url = `${this.host}/api/files/subscribe`;
+    let params = {email: email, token: bundleToken, admin_token: adminToken};
+
+    return new Promise((resolve, reject) => {
+      this.httpManger.postAbsolute(url, params, (response) => {
+        resolve(response.success);
+      }, (errorResponse) => {
+        var error = errorResponse.error;
+        if(!error) {
+          error = {message: "Subscription failed."};
+        }
+        console.error("Subscription fail error:", error);
+        resolve(error);
+      })
+    });
   }
 }

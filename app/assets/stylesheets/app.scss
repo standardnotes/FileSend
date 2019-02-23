@@ -33,7 +33,6 @@ h1, h2, h3, h4 {
 
 #root {
   height: 100%;
-  overflow: scroll;
 }
 
 #home {
@@ -42,8 +41,7 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
   flex-grow: 0;
   background-color: transparent;
-  overflow: visible;
-  margin-top: 80px;
+  padding-top: 80px;
   padding-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -52,6 +50,7 @@ h1, h2, h3, h4 {
     margin-top: 0;
     max-width: 100%;
     margin: 0;
+    padding-top: 0;
   }
 
   #app-content {
@@ -59,7 +58,6 @@ h1, h2, h3, h4 {
     border: 1px solid var(--sn-stylekit-info-color);
     background-color: var(--sn-stylekit-contrast-background-color);
     box-shadow: 0px 0px 10px rgba(black, 0.5);
-    overflow: scroll;
 
     a  {
       color: var(--sn-stylekit-info-color);

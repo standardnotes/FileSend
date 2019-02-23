@@ -1,4 +1,14 @@
+import { StandardFile } from 'standard-file-js';
+
 export default class Utils {
+
+  static async processUserInputtedKey(userInput) {
+    // User inputted keys should be hashed, then base64ed
+    let hash = await SFJS.crypto.sha256(userInput);
+    // to generate shorter keys, split in third
+    hash = hash.slice(0, hash.length/3);
+    return SFJS.crypto.base64(hash);
+  }
 
   static base64toBinary(dataURI) {
     var binary = atob(dataURI);

@@ -60,7 +60,6 @@ class BundlesController < ApplicationController
 
     # only delete if duration is 0
     if bundle.duration != 0
-      render :json => {:error => {:message => "Deletion token invalid."}}, :status => 401
       return
     end
 

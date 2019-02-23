@@ -15,7 +15,7 @@ export default class Home extends React.Component {
     super(props);
 
     let inputKey = props.location.hash.slice(1, props.location.hash.length);
-    this.state = {userKey: inputKey};
+    this.state = {userKey: inputKey, inputKey: inputKey};
 
     let token = props.match.params.token;
     ServerManager.get().getBundleInfo(token).then((response) => {
@@ -59,7 +59,14 @@ export default class Home extends React.Component {
 
     let authParamsData = await SFJS.crypto.base64Decode(SFJS.itemTransformer.encryptionComponentsFromString(files[0].content).authParams);
     let authParams = JSON.parse(authParamsData);
-    let keys = await SFJS.crypto.computeEncryptionKeysForUser(this.state.userKey, authParams);
+    let keyToUse;
+    if(this.state.userKey != this.state.inputKey) {
+      // Process it if it's user inputted text
+      keyToUse = await Utils.processUserInputtedKey(this.state.userKey);
+    } else {
+      keyToUse = this.state.inputKey;
+    }
+    let keys = await SFJS.crypto.computeEncryptionKeysForUser(keyToUse, authParams);
 
     let decryptedFiles = [];
     Promise.all(files.map((file) => {

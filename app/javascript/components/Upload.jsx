@@ -58,7 +58,7 @@ export default class Upload extends React.Component {
     let key = await SFJS.crypto.generateRandomKey(128);
     key = await SFJS.crypto.base64(key);
     key = key.slice(0, length);
-    this.setState({userKey: key});
+    this.setState({userKey: key, pregeneratedKey: key});
   }
 
   async encryptFile({file, keys, authParams, deletionToken}) {
@@ -86,7 +86,14 @@ export default class Upload extends React.Component {
     // Encrypt File
     this.setState({status: "Encrypting...", error: null, encrypting: true, uploading: false});
 
-    let credentials = await this.createKeysFromUserKey(this.state.userKey);
+    let keyToUse;
+    if(this.state.userKey != this.state.pregeneratedKey) {
+      // User has supplied custom key, process it
+      keyToUse = await Utils.processUserInputtedKey(this.state.userKey);
+    } else  {
+      keyToUse = this.state.pregeneratedKey;
+    }
+    let credentials = await this.createKeysFromUserKey(keyToUse);
     let keys = credentials.keys;
     let authParams = credentials.authParams;
 
@@ -101,7 +108,9 @@ export default class Upload extends React.Component {
 
     // Upload to server
     FileManager.get().uploadFiles(encryptedItems, this.state.duration, deletionToken).then((response) => {
-      this.setState({uploadComplete: true, shareUrl: response.share_url});
+      let shareUrl = response.share_url;
+      let simpleLink = `${shareUrl}#${keyToUse}`
+      this.setState({uploadComplete: true, shareUrl: shareUrl, simpleLink: simpleLink});
     }).catch((uploadError) => {
       this.setState({error: uploadError});
     })
@@ -126,7 +135,7 @@ export default class Upload extends React.Component {
   }
 
   copySimpleLink = (event) => {
-    this.copyTextForButton(this.compoundUrl(), event.target);
+    this.copyTextForButton(this.state.simpleLink, event.target);
   }
 
   copyBareLink = (event) => {
@@ -177,7 +186,7 @@ export default class Upload extends React.Component {
                 </div>
 
                 <div className="sk-panel-column stretch">
-                  <input className="sk-panel-row sk-input info" type="text" value={this.compoundUrl()} disabled={true} />
+                  <input className="sk-panel-row sk-input info" type="text" value={this.state.simpleLink} disabled={true} />
                 </div>
 
                 <div className="sk-button-group stretch">

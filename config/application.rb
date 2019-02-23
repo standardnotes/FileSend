@@ -22,7 +22,7 @@ module FileSend
          default_src: %w(https: 'self'),
          base_uri: %w('self'),
          block_all_mixed_content: true, # see http://www.w3.org/TR/mixed-content/
-         child_src: ["'self'"], # if child-src isn't supported, the value for frame-src will be set.
+         child_src: ["'self'", "data:", "blob:"], # if child-src isn't supported, the value for frame-src will be set.
          connect_src: ["'self'", "*"],
          font_src: %w('self'),
          form_action: %w('self'),

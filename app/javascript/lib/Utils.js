@@ -19,26 +19,47 @@ export default class Utils {
     return new Uint8Array(array);
   }
 
-  static downloadData(data, name, type) {
-    var link = document.createElement('a');
-    link.setAttribute('download', name);
-    link.href = this.hrefForData(data, type);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+  static async downloadData(base64, name, type) {
+    let arrayBuffer = await SFJS.crypto.base64ToArrayBuffer(base64);
+    return this.saveFile({data: arrayBuffer, name, type});
   }
 
-  static hrefForData(data, type) {
-    // If we are replacing a previously generated file we need to
-    // manually revoke the object URL to avoid memory leaks.
-    if (this.textFile !== null) {
-      window.URL.revokeObjectURL(this.textFile);
-    }
+  // via https://github.com/mozilla/send/blob/master/app/fileReceiver.js#L87
+  static async saveFile(file) {
+    return new Promise(function(resolve, reject) {
+      const dataView = new DataView(file.data);
+      const blob = new Blob([dataView], { type: file.type });
 
-    this.textFile = window.URL.createObjectURL(new Blob([data], {type: type ? type : 'text/json'}));
-
-    // returns a URL you can use as a href
-    return this.textFile;
+      if (navigator.msSaveBlob) {
+        navigator.msSaveBlob(blob, file.name);
+        return resolve();
+      } else if (/iPhone|fxios/i.test(navigator.userAgent)) {
+        const reader = new FileReader();
+        reader.addEventListener('loadend', function() {
+          if (reader.error) {
+            return reject(reader.error);
+          }
+          if (reader.result) {
+            const a = document.createElement('a');
+            a.href = reader.result;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+          }
+          resolve();
+        });
+        reader.readAsDataURL(blob);
+      } else {
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(downloadUrl);
+        setTimeout(resolve, 100);
+      }
+    });
   }
 
   static async sleep(ms) {
@@ -49,6 +70,7 @@ export default class Utils {
     })
   }
 
+  // via https://github.com/mozilla/send
   static copyToClipboard(str) {
     const aux = document.createElement('input');
     aux.setAttribute('value', str);

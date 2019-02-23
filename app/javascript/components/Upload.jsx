@@ -86,13 +86,9 @@ export default class Upload extends React.Component {
     // Encrypt File
     this.setState({status: "Encrypting...", error: null, encrypting: true, uploading: false});
 
-    let keyToUse;
-    if(this.state.userKey != this.state.pregeneratedKey) {
-      // User has supplied custom key, process it
-      keyToUse = await Utils.processUserInputtedKey(this.state.userKey);
-    } else  {
-      keyToUse = this.state.pregeneratedKey;
-    }
+    let keyToUse = await Utils.processUserInputtedKey(this.state.userKey);
+    let keyToShare = this.state.userKey;
+
     let credentials = await this.createKeysFromUserKey(keyToUse);
     let keys = credentials.keys;
     let authParams = credentials.authParams;

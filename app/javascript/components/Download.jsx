@@ -73,7 +73,7 @@ export default class Home extends React.Component {
       return new Promise((resolve, reject) => {
         FileManager.get().decryptFile(file, keys).then(({data, item}) => {
           ServerManager.get().successfulDownload(this.state.token, item.content.deletionToken).then((response) => {
-            Utils.downloadData(Utils.base64toBinary(data), item.content.fileName, item.content.fileType);
+            Utils.downloadData(data, item.content.fileName, item.content.fileType);
             this.setState({downloaded: true, downloading: false, decryptionError: false, status: null});
             resolve();
           })

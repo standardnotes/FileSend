@@ -81,27 +81,36 @@ class BundlesController < ApplicationController
       return
     end
 
+    bundle.download_count = bundle.download_count + 1
+    bundle.save
+    
     if bundle.notification_email
       BundlesMailer.bundle_downloaded(bundle.id).deliver_later
     end
 
-    bundle.download_count = bundle.download_count + 1
-    bundle.save
 
     if bundle.download_limit && bundle.download_limit > 0
       if bundle.download_count >= bundle.download_limit
-        if bundle.notification_email
-          # Wait a little bit to ensure the bundle download email is sent first
-          # Send raw parameters as the bundle itself may be deleted by email send time
-          BundlesMailer.bundle_deleted(bundle.notification_email, bundle.share_url, bundle.download_count).deliver_later(wait: 5.seconds)
-        end
-
-        bundle.delete_all_files
-        bundle.destroy
+        bundle.perform_deletion
       end
     end
 
     render :json => {:success => true}
+  end
+
+  def delete
+    bundle = Bundle.find_by_token(params[:token])
+    if !bundle
+      render :json => {:error => {:message => "File not found."}}, :status => 404
+      return
+    end
+
+    if bundle.admin_token != params[:admin_token]
+      render :json => {:error => {:message => "Invalid admin token."}}, :status => 401
+      return
+    end
+
+    bundle.perform_deletion
   end
 
 

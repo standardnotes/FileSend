@@ -10,6 +10,10 @@ class Bundle < ApplicationRecord
     "#{ENV['HOST']}/send/#{self.token}"
   end
 
+  def deletion_link
+    "#{ENV['HOST']}/api/files/delete/?token=#{self.token}&admin_token=#{self.admin_token}"
+  end
+
   def add_file(url, key)
     file = self.bundle_files.create({url: url, storage_key: key})
     return file
@@ -17,6 +21,17 @@ class Bundle < ApplicationRecord
 
   def file_urls
     self.bundle_files.map { |file| file.url  }
+  end
+
+  def perform_deletion
+    if self.notification_email
+      # Wait a little bit to ensure the bundle download email is sent first
+      # Send raw parameters as the bundle itself may be deleted by email send time
+      BundlesMailer.bundle_deleted(self.notification_email, self.created_at.to_json, self.download_count).deliver_later(wait: 5.seconds)
+    end
+
+    self.delete_all_files
+    self.destroy
   end
 
   def delete_all_files

@@ -1,0 +1,20 @@
+%p Hello,
+
+%p
+  This email is to inform you that you have subscribed
+  to a new file uploaded on #{@bundle.created_at}.
+
+- if @bundle.download_limit
+  - if @bundle.download_limit == 1
+    %p This file will be deleted immediately after it is downloaded by its recipient.
+  - else
+    %p This file will be deleted immediately after #{@bundle.download_limit} downloads.
+- else
+  %p This file will be deleted on #{@bundle.expiration}
+
+%p You can:
+
+
+%a.info.link-block{"href" => "#{@bundle.share_url}"} View file link
+%a.danger.link-block{"href" => "#{@bundle.deletion_link}"} Delete this file now
+%a.info.link-block{"href" => "#{ENV['HOST']}"} Upload another file

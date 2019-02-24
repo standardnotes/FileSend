@@ -4,10 +4,41 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
       /* Email styles need to be inline */
+      body {
+        padding: 30px;
+        font-family: "Avenir Next", sans-serif;
+        line-height: 1.3;
+        -webkit-font-smoothing: antialiased;
+        font-size: 14px;
+      }
+
+      .link-block {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .info {
+        color: #086DD6;
+      }
+
+      .danger {
+        color: #DB2424;
+      }
+
+      .signature {
+        margin-top: 30px;
+      }
+
+      .signature-sn {
+        opacity: 0.5;
+        margin-top: -10px;
+      }
     </style>
   </head>
 
   <body>
     <%= yield %>
+    <p class="signature">Thanks for using FileSend to encrypt and share your files,</p>
+    <p class="signature-sn">SN</p>
   </body>
 </html>

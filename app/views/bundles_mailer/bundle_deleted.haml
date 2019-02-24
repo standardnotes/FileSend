@@ -1,0 +1,10 @@
+%p Hello,
+
+%p
+  This email is to inform you that the file you uploaded on #{@created_at}
+  has been permanently deleted.
+
+%p Your file was downloaded a total of #{@download_count} times.
+
+%p You can:
+%a.info.link-block{"href" => "#{ENV['HOST']}"} Upload another file

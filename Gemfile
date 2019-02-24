@@ -15,18 +15,19 @@ gem 'webpacker'
 gem 'react-rails'
 
 gem 'aws-sdk-s3'
-# Use Puma as the app server
+
 gem 'puma', '~> 3.7'
-# Use SCSS for stylesheets
+
 gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
+
 gem 'uglifier', '>= 1.3.0'
 
 gem 'turbolinks', '~> 5.1.0'
 
 gem 'whenever', :require => false
 
-gem "non-stupid-digest-assets"
+gem 'premailer-rails'
+gem 'haml-rails'
 
 gem 'dotenv-rails'
 gem 'secure_headers'

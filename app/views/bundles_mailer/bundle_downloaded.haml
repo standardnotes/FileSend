@@ -1,0 +1,20 @@
+%p Hello,
+
+%p
+  This email is to inform you that the file you uploaded on #{@bundle.created_at}
+  has just been downloaded. It has been downloaded a total of #{@bundle.download_count} times.
+
+- if @bundle.download_limit
+  - if @bundle.download_limit == 1
+    %p This file has now been permanently deleted. You will receive a separate email confirming its deletion.
+  - else
+    %p This file will be deleted immediately after #{@bundle.download_limit} downloads.
+- else
+  %p This file has no download limit, but will automatically delete on #{@bundle.expiration}.
+
+%p You can:
+
+- if !(@bundle.download_limit == 1 && @bundle.download_count == 1)
+  %a.info.link-block{"href" => "#{@bundle.share_url}"} View file link
+  %a.danger.link-block{"href" => "#{@bundle.deletion_link}"} Delete this file now
+%a.info.link-block{"href" => "#{ENV['HOST']}"} Upload another file

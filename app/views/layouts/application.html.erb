@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FileSend by Standard Notes</title>
     <%= csrf_meta_tags %>
-
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <link href="<%= image_path("favicon/favicon.ico") %>" rel="shortcut icon" />
+    <link rel="apple-touch-icon" href="<%= image_path("favicon/apple-touch-icon.png") %>" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= image_path("favicon/favicon-32x32.png") %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= image_path("favicon/favicon-16x16.png") %>">
+    <link rel="manifest" href="<%= image_path("favicon/site.webmanifest") %>">
+
+    <link rel="mask-icon" href="<%= image_path("favicon/safari-pinned-tab.svg") %>" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <base href="/"></base>
+
+    <title><%= @title %></title>
+    <meta content="<%= @title %>" name="title"/>
+    <meta content="<%= @desc %>" name="description"/>
+
+    <meta content="<%= @title %>" name="apple-mobile-web-app-title"/>
+    <meta content="<%= @title %>" name="application-name"/>
+
+    <meta name="twitter:title" content="<%= @title %>" />
+    <meta name="twitter:description" content="<%= @desc %>" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="<%= @meta_image %>"/>
+    <meta name="twitter:domain" content="https://filesend.standardnotes.org"/>
+    <meta name="twitter:site" content="@standardnotes"/>
+
+    <meta property="og:image" content="<%= @meta_image %>"/>
+    <meta property="og:image:secure_url" content="<%= @meta_image %>"/>
+    <meta property="og:image:width" content="1000"/>
+    <meta property="og:image:height" content="500"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="<%= @title %>" />
+    <meta property="og:description" content="<%= @desc %>" />
+    <meta property="og:url" content="https://filesend.standardnotes.org"/>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>

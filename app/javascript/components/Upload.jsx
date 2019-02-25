@@ -7,6 +7,8 @@ import Utils from "../lib/Utils";
 import Share from "./Share"
 import Button from "./Button"
 
+const UploadLimit = 50; // MB
+
 export default class Upload extends React.Component {
 
   constructor(props) {
@@ -25,11 +27,22 @@ export default class Upload extends React.Component {
     this.generateKeyForUser();
   }
 
-  onFile = ({data, name, type}) => {
+  totalFilesSize = () => {
+    let sum = 0;
+    for(let file of this.state.inputFiles) {
+      sum += file.size;
+    }
+    return sum;
+  }
+
+  onFile = ({data, name, type, size}) => {
     let files = this.state.inputFiles.slice();
-    let file = {data, name, type};
-    files.push(file);
-    this.setState({inputFiles: files, error: null});
+    if(this.totalFilesSize() + size > UploadLimit) {
+      alert(`Attaching this file would exceed the total upload limit of ${UploadLimit} MB.`);
+    } else {
+      files.push({data, name, type, size});
+      this.setState({inputFiles: files, error: null});
+    }
   }
 
   onKeyChange = (event) => {

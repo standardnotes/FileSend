@@ -102,7 +102,7 @@ export default class FileInput extends React.Component {
   }
   async readFile(file) {
     const MegabyteLimit = 50;
-    const BytesInMegabyte = 1000000; // 50mb
+    const BytesInMegabyte = 1000000.0; // 50mb
     const ByteLimit = MegabyteLimit * BytesInMegabyte;
 
     return new Promise((resolve, reject) => {
@@ -112,15 +112,9 @@ export default class FileInput extends React.Component {
       reader.onload = async (e) => {
         var data = e.target.result;
         var arrayBuffer = data;
-        var bytes = arrayBuffer.byteLength;
-        if(bytes > ByteLimit) {
-          alert(`The maximum upload size is ${MegabyteLimit} megabytes per file.`);
-          this.setState({status: null});
-          resolve();
-          return;
-        }
+        let megabytes = arrayBuffer.byteLength / BytesInMegabyte;
         var base64 = await SFJS.crypto.arrayBufferToBase64(arrayBuffer);
-        this.props.onFile({data: base64, name: file.name, type: file.type});
+        this.props.onFile({data: base64, name: file.name, type: file.type, size: megabytes});
         resolve();
       }
 

@@ -38,7 +38,7 @@ module FileSend
          worker_src: %w('self' data: blob:),
          plugin_types: %w(),
          script_src: %w('self' 'unsafe-inline' matomo.standardnotes.org ),
-         style_src: %w('self' 'unsafe-inline' *.mailchimp.com),
+         style_src: %w('self' 'unsafe-inline'),
          upgrade_insecure_requests: false # see https://www.w3.org/TR/upgrade-insecure-requests/
       }
     end

@@ -26,7 +26,10 @@ gem 'turbolinks', '~> 5.1.0'
 
 gem 'whenever', :require => false
 
+gem "sentry-raven"
+
 gem 'premailer-rails'
+
 gem 'haml-rails'
 
 gem 'dotenv-rails'

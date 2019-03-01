@@ -45,9 +45,8 @@ class Bundle < ApplicationRecord
   def self.delete_expired_files
     expired = Bundle.where("expiration <= ?", DateTime.now)
     expired.each do |bundle|
-      bundle.delete_all_files
+      bundle.perform_deletion
     end
-    expired.delete_all
   end
 
 end

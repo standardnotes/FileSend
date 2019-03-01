@@ -83,11 +83,10 @@ class BundlesController < ApplicationController
 
     bundle.download_count = bundle.download_count + 1
     bundle.save
-    
+
     if bundle.notification_email
       BundlesMailer.bundle_downloaded(bundle.id).deliver_later
     end
-
 
     if bundle.download_limit && bundle.download_limit > 0
       if bundle.download_count >= bundle.download_limit

@@ -11,7 +11,7 @@ class BundlesMailer < ApplicationMailer
   end
 
   def bundle_deleted(email, created_at, download_count)
-    @created_at = JSON.parse(created_at).to_datetime
+    @created_at = Time.at(created_at).to_datetime
     @download_count = download_count
     mail(to: email, subject: "Your FileSend file has been deleted.")
   end

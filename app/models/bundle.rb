@@ -27,7 +27,7 @@ class Bundle < ApplicationRecord
     if self.notification_email
       # Wait a little bit to ensure the bundle download email is sent first
       # Send raw parameters as the bundle itself may be deleted by email send time
-      BundlesMailer.bundle_deleted(self.notification_email, self.created_at.to_json, self.download_count).deliver_later(wait: 5.seconds)
+      BundlesMailer.bundle_deleted(self.notification_email, self.created_at.to_i, self.download_count).deliver_later(wait: 5.seconds)
     end
 
     self.delete_all_files

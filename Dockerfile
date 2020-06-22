@@ -3,6 +3,7 @@ FROM ruby:2.6.5-alpine
 RUN apk add --update --no-cache \
     alpine-sdk \
     mariadb-dev \
+    sqlite-dev \
     git \
     make \
     g++ \
@@ -23,8 +24,6 @@ RUN yarn install
 RUN gem install bundler && bundle install
 
 COPY . /filesend
-
-RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
 

@@ -10,7 +10,7 @@ services:
     ports:
       - ${PORT}:3000
     volumes:
-      - .:/listed
+      - .:/filesend
     links:
       - db
   db:

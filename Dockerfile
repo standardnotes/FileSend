@@ -19,7 +19,7 @@ COPY package.json yarn.lock Gemfile Gemfile.lock /filesend/
 
 COPY vendor /filesend/vendor
 
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 RUN gem install bundler && bundle install
 

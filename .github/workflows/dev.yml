@@ -44,4 +44,13 @@ jobs:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: filesend-dev
         cluster: dev
-        wait-for-service-stability: false
+        wait-for-service-stability: true
+    - name: Create a Sentry.io release
+      uses: tclindner/sentry-releases-action@v1.2.0
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: standard-notes
+        SENTRY_PROJECT: filesend
+      with:
+        tagName: ${{ github.sha }}
+        environment: dev

@@ -14,7 +14,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: standardnotes/listed
+        name: standardnotes/filesend
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "stable,${{ github.sha }}"
@@ -28,20 +28,20 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition listed-prod --query taskDefinition > task-definition.json
+        aws ecs describe-task-definition --task-definition filesend-prod --query taskDefinition > task-definition.json
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: listed-prod
+        container-name: filesend-prod
         image: "standardnotes/web:${{ github.sha }}"
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: listed-prod
+        service: filesend-prod
         cluster: prod
         wait-for-service-stability: true

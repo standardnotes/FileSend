@@ -25,8 +25,6 @@ RUN gem install bundler && bundle install
 
 COPY . /filesend
 
-RUN bundle exec rake assets:precompile
-
 EXPOSE 3000
 
 ENTRYPOINT [ "docker/entrypoint.sh" ]

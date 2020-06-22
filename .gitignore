@@ -31,3 +31,6 @@
 yarn-debug.log*
 .yarn-integrity
 .DS_Store
+
+# MySQL Docker data
+/data/

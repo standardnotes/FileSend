@@ -36,7 +36,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: filesend-prod
-        image: "standardnotes/web:${{ github.sha }}"
+        image: "standardnotes/filesend:${{ github.sha }}"
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1

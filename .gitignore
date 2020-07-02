@@ -17,6 +17,7 @@
 !/log/.keep
 !/tmp/.keep
 
+.vscode
 
 /node_modules
 /yarn-error.log
@@ -26,8 +27,12 @@
 .ssh
 /config/cap.yml
 /public/packs
+/public/assets/
 /public/packs-test
 /node_modules
 yarn-debug.log*
 .yarn-integrity
 .DS_Store
+
+# MySQL Docker data
+/data/

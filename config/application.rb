@@ -13,10 +13,6 @@ module FileSend
 
     Premailer::Adapter.use = :nokogiri_fast
 
-    Raven.configure do |config|
-      config.dsn = ENV['SENTRY_DSN']
-    end
-
     SecureHeaders::Configuration.default do |config|
       config.csp = {
         # "meta" values. these will shape the header, but the values are not included in the header.

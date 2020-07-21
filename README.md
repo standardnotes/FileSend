@@ -1,7 +1,7 @@
 # FileSend
 ## By [Standard Notes](https://standardnotes.org)
 
-FileSend allows you to securely share files through [filesend.standardnotes.org](filesend.standardnotes.org).
+FileSend allows you to securely share files through [filesend.standardnotes.org](https://filesend.standardnotes.org).
 
 Files are encrypted client-side using AES-256 encryption (via the audited [Standard File](https://standardfile.org) cryptography specification). In addition, FileSend features auto-deletion of files after first download (maximum 5 days), or after specified duration. In addition, FileSend does not log IP addresses.
 

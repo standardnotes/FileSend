@@ -1,7 +1,9 @@
 #!/bin/sh
 set -e
 
-case "$1" in
+COMMAND=$1 && shift 1
+
+case "$COMMAND" in
   'start' )
     echo "Prestart Step 1/4 - Removing server lock"
     rm -f /filesend/tmp/pids/server.pid
@@ -15,7 +17,12 @@ case "$1" in
     bundle exec rails server -b 0.0.0.0
     ;;
 
-   * )
+  'files-cleanup' )
+    echo "Starting Files Cleanup..."
+    rails runner "Bundle.delete_expired_files"
+    ;;
+
+  * )
     echo "Unknown command"
     ;;
 esac

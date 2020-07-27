@@ -11,10 +11,6 @@ Rails.application.configure do
     config.logger = ActiveSupport::Logger.new(STDOUT)
   end
 
-  require 'custom_log_formatter'
-  config.log_formatter = CustomLogFormatter.new
-  config.logger.formatter = config.log_formatter
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

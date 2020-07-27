@@ -8,6 +8,13 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  MAX_LOG_MEGABYTES = 50
+  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
+
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    config.logger = ActiveSupport::Logger.new(STDOUT)
+  end
+
   # Do not eager load code on boot.
   config.eager_load = false
 

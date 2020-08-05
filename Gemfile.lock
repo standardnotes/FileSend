@@ -239,8 +239,6 @@ GEM
     selenium-webdriver (3.12.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
-    sentry-raven (2.7.2)
-      faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.11.0)
     sinatra (1.0)
       rack (>= 1.0)
@@ -325,7 +323,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   secure_headers
   selenium-webdriver
-  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5.1.0)

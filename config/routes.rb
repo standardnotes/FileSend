@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   post "api/files/subscribe" => "bundles#subscribe"
   get "api/files/delete" => "bundles#delete"
 
-  match '*path' => 'app#index', :via => [:get]
-
   get "/healthcheck" => "health_check#index"
+
+  match '*path' => 'app#index', :via => [:get]
 
   get '*unmatched_route', to: 'application#route_not_found'
 

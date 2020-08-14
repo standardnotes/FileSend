@@ -1,5 +1,4 @@
-class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session
+class ApplicationController < ActionController::API
 
   before_action {
     @title = "FileSend | Simple, encrypted file sharing."

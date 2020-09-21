@@ -97,7 +97,7 @@ GEM
     css_parser (1.6.0)
       addressable
     daemons (1.2.6)
-    ddtrace (0.38.0)
+    ddtrace (0.40.0)
       msgpack
     dogstatsd-ruby (4.8.1)
     dotenv (2.4.0)
@@ -108,8 +108,6 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.9.1)
     execjs (2.7.0)
-    faraday (0.14.0)
-      multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -161,7 +159,6 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     msgpack (1.3.3)
-    multipart-post (2.0.0)
     mysql2 (0.4.10)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -307,7 +304,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capybara (~> 2.13)
-  ddtrace (~> 0.38.0)
+  ddtrace (~> 0.40)
   dogstatsd-ruby (~> 4.8)
   dotenv-rails
   haml-rails

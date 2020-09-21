@@ -11,6 +11,9 @@ Rails.application.configure do
     config.logger = ActiveSupport::Logger.new(STDOUT)
   end
 
+  config.colorize_logging = false
+  config.logger.formatter = StandardNotesFormatter.new
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

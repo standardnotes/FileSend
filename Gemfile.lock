@@ -97,7 +97,6 @@ GEM
     css_parser (1.6.0)
       addressable
     daemons (1.2.6)
-    dogstatsd-ruby (4.8.1)
     dotenv (2.4.0)
     dotenv-rails (2.4.0)
       dotenv (= 2.4.0)
@@ -302,7 +301,6 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capybara (~> 2.13)
-  dogstatsd-ruby (~> 4.8)
   dotenv-rails
   haml-rails
   listen (>= 3.0.5, < 3.2)

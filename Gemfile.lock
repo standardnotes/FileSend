@@ -97,8 +97,6 @@ GEM
     css_parser (1.6.0)
       addressable
     daemons (1.2.6)
-    ddtrace (0.40.0)
-      msgpack
     dogstatsd-ruby (4.8.1)
     dotenv (2.4.0)
     dotenv-rails (2.4.0)
@@ -158,11 +156,11 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    msgpack (1.3.3)
     mysql2 (0.4.10)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
+    newrelic_rpm (7.0.0)
     nio4r (2.3.1)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -304,7 +302,6 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capybara (~> 2.13)
-  ddtrace (~> 0.40)
   dogstatsd-ruby (~> 4.8)
   dotenv-rails
   haml-rails
@@ -312,6 +309,7 @@ DEPENDENCIES
   lograge (~> 0.11.2)
   mailcatcher
   mysql2 (>= 0.3.13, < 0.5)
+  newrelic_rpm
   premailer-rails
   puma (~> 3.12)
   rack-cors

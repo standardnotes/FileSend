@@ -153,7 +153,7 @@ GEM
       thin
     method_source (0.9.0)
     mini_mime (1.0.0)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.5.1)
     minitest (5.11.3)
     mysql2 (0.4.10)
     net-scp (1.2.1)
@@ -161,8 +161,9 @@ GEM
     net-ssh (5.0.2)
     newrelic_rpm (7.0.0)
     nio4r (2.3.1)
-    nokogiri (1.10.9)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.11.5)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     premailer (1.11.1)
       addressable
       css_parser (>= 1.6.0)
@@ -172,6 +173,7 @@ GEM
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (3.0.2)
     puma (3.12.6)
+    racc (1.5.2)
     rack (2.2.3)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
@@ -307,7 +309,7 @@ DEPENDENCIES
   lograge (~> 0.11.2)
   mailcatcher
   mysql2 (>= 0.3.13, < 0.5)
-  newrelic_rpm
+  newrelic_rpm (~> 7.0)
   premailer-rails
   puma (~> 3.12)
   rack-cors

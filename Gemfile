@@ -16,7 +16,7 @@ gem 'react-rails'
 
 gem 'aws-sdk-s3'
 
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 3.12'
 
 gem 'sass-rails', '~> 5.0'
 

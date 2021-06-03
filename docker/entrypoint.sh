@@ -18,7 +18,6 @@ case "$COMMAND" in
     ;;
 
   'files-cleanup' )
-    echo "Starting Files Cleanup..."
     rails runner "Bundle.delete_expired_files"
     ;;
 

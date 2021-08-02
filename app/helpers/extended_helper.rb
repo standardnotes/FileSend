@@ -3,7 +3,7 @@ module ExtendedHelper
   require 'uri'
 
   def self.is_extended_valid(email)
-    url = "#{ENV["EXTENDED_VALIDATION_URL"]}?email=#{email}&key=#{ENV['EXTENDED_VALIDATION_KEY']}"
+    url = "#{ENV["EXTENDED_VALIDATION_URL"]}?email=#{CGI.escape(email)}&key=#{ENV['EXTENDED_VALIDATION_KEY']}"
     uri = URI.parse(url)
 
     http = Net::HTTP.new(uri.host, uri.port)

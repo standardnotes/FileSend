@@ -11,6 +11,8 @@ module ExtendedHelper
     http.use_ssl = (uri.scheme == "https")
     response = http.request(req)
 
+    Rails.logger.info "Extended validation response (#{response.code}): #{response.body}"
+
     if response.code[0] == "2"
       result = JSON.parse(response.body)
       return result["valid"]

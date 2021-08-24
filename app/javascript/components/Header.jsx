@@ -10,7 +10,7 @@ export default class Header extends React.Component {
     return (
       <div id="header">
         <h1 className="title">
-          <a href="https://standardnotes.org" target="_blank" className="sn">SN</a>
+          <a href="https://standardnotes.com" target="_blank" className="sn">SN</a>
           <div className="rule">
           </div>
           <a href="/">

@@ -107,7 +107,7 @@ export default class Share extends React.Component {
               <div className="sk-h2 sk-label">File Management + Email Notifications</div>
               <div>Get notified when your file is downloaded, with link to permanently delete the file at any time before expiration.</div>
               <div className="sk-panel-row">
-                <div>Available with <a href="https://standardnotes.org/extensions" target="_blank" className="sk-bold">Standard Notes Extended</a>.</div>
+                <div>Available with <a href="https://standardnotes.com/features" target="_blank" className="sk-bold">Standard Notes Extended</a>.</div>
               </div>
 
               {!this.state.subscriptionSuccess &&
@@ -130,7 +130,7 @@ export default class Share extends React.Component {
                 {this.state.subscriptionSuccess == false &&
                   <div className="sk-panel-row centered sk-bold">
                     <div>
-                      Failed to subscribe to file. Ensure your <a href="https://standardnotes.org/extensions" target="_blank">Extended subscription</a> is valid and try again.
+                      Failed to subscribe to file. Ensure your <a href="https://standardnotes.com/features" target="_blank">Extended subscription</a> is valid and try again.
                     </div>
                   </div>
                 }

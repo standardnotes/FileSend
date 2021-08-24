@@ -46,7 +46,7 @@ export default class Home extends React.Component {
                 <a href="https://github.com/standardnotes/filesend" target="_blank">Source code</a>
               </div>
               <div>
-                <a href="https://standardnotes.org" target="_blank" className="by-sn">Powered by <span className="sn">Standard Notes</span></a>
+                <a href="https://standardnotes.com" target="_blank" className="by-sn">Powered by <span className="sn">Standard Notes</span></a>
               </div>
             </div>
           </div>

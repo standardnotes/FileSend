@@ -1,13 +1,13 @@
 # FileSend
-## By [Standard Notes](https://standardnotes.org)
+## By [Standard Notes](https://standardnotes.com)
 
-FileSend allows you to securely share files through [filesend.standardnotes.org](https://filesend.standardnotes.org).
+FileSend allows you to securely share files through [filesend.standardnotes.com](https://filesend.standardnotes.com).
 
 Files are encrypted client-side using AES-256 encryption (via the audited [Standard File](https://standardfile.org) cryptography specification). In addition, FileSend features auto-deletion of files after first download (maximum 5 days), or after specified duration. In addition, FileSend does not log IP addresses.
 
 ## Cryptography
 
-FileSend uses the same [audited cryptography](https://standardnotes.org/help/2/has-standard-notes-completed-a-third-party-security-audit) that Standard Notes uses to encrypt and secure user data. In particular, files are encrypted with AES-256, and authenticated with HMAC256. Encryption makes files undecipherable without the respective encryption key, and authentication ensures that files have not been tampered with or changed after upload.
+FileSend uses the same [audited cryptography](https://standardnotes.com/help/2/has-standard-notes-completed-a-third-party-security-audit) that Standard Notes uses to encrypt and secure user data. In particular, files are encrypted with AES-256, and authenticated with HMAC256. Encryption makes files undecipherable without the respective encryption key, and authentication ensures that files have not been tampered with or changed after upload.
 
 FileSend will automatically generate an encryption key locally for you upon loading of the web interface. You can use this key, or erase it, and choose a key of your own.
 
@@ -40,6 +40,6 @@ S3_BUCKET=
 
 ## Learn more
 
-FileSend is built upon the foundations of FileSafe, which is a Standard Notes [extension](https://standardnotes.org/extensions) that allows attaching encrypted files to notes and uploading to a user's own cloud provider (Dropbox, Google Drive, WebDAV). FileSend currently only supports uploading to S3, however, uploading to a user's own cloud provider may be an interesting iteration.
+FileSend is built upon the foundations of FileSafe, which is a Standard Notes [extension](https://standardnotes.com/features) that allows attaching encrypted files to notes and uploading to a user's own cloud provider (Dropbox, Google Drive, WebDAV). FileSend currently only supports uploading to S3, however, uploading to a user's own cloud provider may be an interesting iteration.
 
-You can learn more about Standard Notes at [standardnotes.org](https://standardnotes.org).
+You can learn more about Standard Notes at [standardnotes.com](https://standardnotes.com).

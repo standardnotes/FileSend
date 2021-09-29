@@ -43,10 +43,14 @@ class Bundle < ApplicationRecord
   end
 
   def self.delete_expired_files
-    expired = Bundle.where("expiration <= ?", DateTime.now)
-    Rails.logger.info "Found #{expired.size} expired bundles"
-    expired.each do |bundle|
-      bundle.perform_deletion
+    begin
+      expired = Bundle.where("expiration <= ?", DateTime.now)
+      Rails.logger.info "Found #{expired.size} expired bundles"
+      expired.each do |bundle|
+        bundle.perform_deletion
+      end
+    rescue => exception
+      Rails.logger.error "Could not delete expired bundles: #{exception.message}"
     end
   end
 

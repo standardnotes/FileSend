@@ -18,7 +18,7 @@ case "$COMMAND" in
     ;;
 
   'files-cleanup' )
-    rails runner "Bundle.delete_expired_files"
+    timeout 5m rails runner "Bundle.delete_expired_files"
     ;;
 
   * )

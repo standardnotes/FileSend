@@ -307,7 +307,7 @@ DEPENDENCIES
   lograge (~> 0.11.2)
   mailcatcher
   mysql2 (>= 0.3.13, < 0.5)
-  newrelic_rpm
+  newrelic_rpm (~> 7.0)
   premailer-rails
   puma (~> 3.12)
   rack-cors

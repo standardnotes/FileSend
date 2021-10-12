@@ -171,7 +171,8 @@ GEM
       actionmailer (>= 3, < 6)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (3.0.2)
-    puma (3.12.6)
+    puma (4.3.9)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
@@ -309,7 +310,7 @@ DEPENDENCIES
   mysql2 (>= 0.3.13, < 0.5)
   newrelic_rpm (~> 7.0)
   premailer-rails
-  puma (~> 3.12)
+  puma (~> 4.3)
   rack-cors
   rails (~> 5.1.5)
   react-rails

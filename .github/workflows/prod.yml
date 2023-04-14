@@ -42,7 +42,7 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: filesend-prod
+        service: filesend
         cluster: prod
         wait-for-service-stability: true
 
